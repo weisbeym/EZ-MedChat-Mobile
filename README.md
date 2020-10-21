@@ -1,1 +1,1 @@
-DPTA
+EZ MedChat Mobile
