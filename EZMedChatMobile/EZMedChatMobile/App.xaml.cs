@@ -14,7 +14,9 @@ namespace EZMedChatMobile
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
-            MainPage = new AppShell();
+            DependencyService.Register<MedChatApiDataService>();
+            //MainPage = new AppShell();
+            MainPage = new LoginPage();
         }
 
         protected override void OnStart()

@@ -5,10 +5,62 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="EZMedChatMobile.Views.LoginPage"
+             xmlns:converters="clr-namespace:EZMedChatMobile.Converters;assembly=EZMedChatMobile"
+             xmlns:behaviors="clr-namespace:EZMedChatMobile.Behaviors;assembly=EZMedChatMobile"
              Shell.NavBarIsVisible="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter" />
+            <converters:ValidationErrorConverter x:Key="ValidationErrorConverter"/>
+            <Style x:Key="ValidationErrorLabelStyle"
+                   TargetType="{x:Type Label}">
+                <Setter Property="TextColor"
+                           Value="#ff5252" />
+                <Setter Property="FontSize"
+                           Value="12" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
-        </StackLayout>
+        <Grid>
+            <StackLayout IsVisible="{Binding IsBusy, Converter={StaticResource ReverseBooleanConverter}}">
+                <StackLayout VerticalOptions="CenterAndExpand" Margin="24" >
+                    <!--Username entry-->
+                    <Label x:Name="usernameLabel" Text="Username" TextColor="CadetBlue"/>
+                    <Entry x:Name="username" Placeholder="username" Text="{Binding Username.Value, Mode=TwoWay}"
+                       VerticalOptions="Center">
+                        <Entry.Behaviors>
+                            <behaviors:EventToCommandBehavior
+                                EventName="TextChanged"
+                                Command="{Binding ValidateUsernameCommand}"/>
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Label Text="{Binding Username.Errors, Converter={StaticResource ValidationErrorConverter}}"  
+                        Style="{StaticResource ValidationErrorLabelStyle}" />
+                    <!--Password entry-->
+                    <Label x:Name="passwordLabel" Text="Password" TextColor="CadetBlue"/>
+                    <Entry x:Name="password" Placeholder="password" IsPassword="true" Text="{Binding Password.Value, Mode=TwoWay}"
+                       VerticalOptions="Center">
+                        <Entry.Behaviors>
+                            <behaviors:EventToCommandBehavior
+                                EventName="TextChanged"
+                                Command="{Binding ValidatePasswordCommand}"/>
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Label Text="{Binding Password.Errors, Converter={StaticResource ValidationErrorConverter}}"  
+                        Style="{StaticResource ValidationErrorLabelStyle}" />
+                    <!--Login Button-->
+                    <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
+                </StackLayout>
+                <StackLayout VerticalOptions="End">
+                    <Label Text="Don't have an account?" HorizontalOptions="Center"/>
+                    <Button Text="Sign up here" Command="{Binding RegisterCommand}"  HorizontalOptions="Center"/>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator IsRunning="True" />
+                <Label Text="Logging in..." TextColor="CadetBlue"/>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
