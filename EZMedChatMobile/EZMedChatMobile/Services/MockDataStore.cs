@@ -6,55 +6,61 @@ using EZMedChatMobile.Models;
 
 namespace EZMedChatMobile.Services
 {
-    public class MockDataStore : IDataStore<Item>
+    public class MockDataStore : IDataStore<Practitioner>
     {
-        readonly List<Item> items;
+        readonly List<Practitioner> practitioners;
 
         public MockDataStore()
         {
-            items = new List<Item>()
+            practitioners = new List<Practitioner>()
             {
-                new Item { Id = Guid.NewGuid().ToString(), Text = "First item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Second item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Third item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Fourth item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Fifth item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Sixth item", Description="This is an item description." }
+                new Practitioner { Id = 1, FirstName = "John", LastName ="Doe", IsOnline=false},
+                new Practitioner { Id = 2, FirstName = "Max", LastName ="Paine", IsOnline=true},
+                new Practitioner { Id = 3, FirstName = "Jane", LastName ="Fonda", IsOnline=false},
+                new Practitioner { Id = 4, FirstName = "Chris", LastName ="Pratt", IsOnline=false},
+                new Practitioner { Id = 5, FirstName = "Mary", LastName ="Jane", IsOnline=false},
+                new Practitioner { Id = 6, FirstName = "Gwen", LastName ="Stacy", IsOnline=false},
+                new Practitioner { Id = 7, FirstName = "Allen", LastName ="Walker", IsOnline=true},
             };
         }
 
-        public async Task<bool> AddItemAsync(Item item)
+        public async Task<bool> AddItemAsync(Practitioner practitioner)
         {
-            items.Add(item);
+            practitioners.Add(practitioner);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> UpdateItemAsync(Item item)
+        public async Task<bool> UpdateItemAsync(Practitioner practitioner)
         {
-            var oldItem = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
-            items.Remove(oldItem);
-            items.Add(item);
+            var oldItem = practitioners.Where((Practitioner arg) => arg.Id == practitioner.Id).FirstOrDefault();
+            practitioners.Remove(oldItem);
+            practitioners.Add(practitioner);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> DeleteItemAsync(string id)
+        public async Task<bool> DeleteItemAsync(int id)
         {
-            var oldItem = items.Where((Item arg) => arg.Id == id).FirstOrDefault();
-            items.Remove(oldItem);
+            var oldItem = practitioners.Where((Practitioner arg) => arg.Id == id).FirstOrDefault();
+            practitioners.Remove(oldItem);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<Item> GetItemAsync(string id)
+        public async Task<Practitioner> GetItemAsync(int id)
         {
-            return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
+            return await Task.FromResult(practitioners.FirstOrDefault(s => s.Id == id));
         }
 
-        public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
+        public List<Practitioner> GetPractitioners()
         {
-            return await Task.FromResult(items);
+            return practitioners;
+        }
+
+        public async Task<IEnumerable<Practitioner>> GetPractitionersAsync(bool forceRefresh = false)
+        {
+            return await Task.FromResult(practitioners);
         }
     }
 }

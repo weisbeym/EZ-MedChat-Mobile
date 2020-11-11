@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:EZMedChatMobile.Components"
+             x:Class="EZMedChatMobile.Components.InitialsCircleView">
+    <ContentPage.Content>
+        <Grid x:Name="Container">
+            <components:CircleView x:Name="Circle" Margin="16" 
+                HorizontalOptions="Fill" VerticalOptions="Fill" 
+                Color="{Binding CircleColor}" CornerRadius="{Binding CornerRadius}"/>
+            <Label x:Name="InitialsLabel" VerticalOptions="Center"
+                HorizontalOptions="Center" HorizontalTextAlignment="Center" 
+                TextColor="{Binding TextColor}" Font="{Binding Font}" FontSize="{Binding FontSize}" />
+            <Label x:Name="fullName" Text="{Binding Name}" HorizontalOptions="Center" VerticalOptions="End"
+                   TextColor="Black" Font="{Binding Font}" FontSize="16" Padding="-5"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentView>

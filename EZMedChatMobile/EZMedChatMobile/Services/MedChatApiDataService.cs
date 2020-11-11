@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EZMedChatMobile.Services
 {
-    class MedChatApiDataService : BaseHttpService, IMedChatDataService
+    public class MedChatApiDataService : BaseHttpService, IMedChatDataService
     {
         readonly Uri _baseUri;
         readonly IDictionary<string, string> _headers;

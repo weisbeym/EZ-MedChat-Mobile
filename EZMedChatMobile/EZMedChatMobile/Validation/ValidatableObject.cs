@@ -1,11 +1,10 @@
 ﻿using EZMedChatMobile.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
-using Xamarin.Forms;
 
 namespace EZMedChatMobile.Validation
 {
-    public class ValidatableObject<T> : BaseViewModel, IValidity
+    public class ValidatableObject<T> : Base, IValidity
     {
         private readonly List<IValidationRule<T>> _validationRules;
         private List<string> _errors;
@@ -20,8 +19,6 @@ namespace EZMedChatMobile.Validation
             set
             {
                 _errors = value;
-                //TODO: find out the difference between raisepropertychanged and onpropertychanged
-                //can I just use onpropertuchangeed?
                 OnPropertyChanged();
             }
         }

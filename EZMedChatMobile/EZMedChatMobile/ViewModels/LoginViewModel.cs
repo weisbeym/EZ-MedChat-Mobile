@@ -1,9 +1,6 @@
 ﻿using EZMedChatMobile.Services;
 using EZMedChatMobile.Validation;
 using EZMedChatMobile.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -26,6 +23,7 @@ namespace EZMedChatMobile.ViewModels
         // variables
         private ValidatableObject<string> _username;
         private ValidatableObject<string> _password;
+        private bool _isValid;
 
         public ValidatableObject<string>  Username
         {
@@ -47,18 +45,30 @@ namespace EZMedChatMobile.ViewModels
             }
         }
 
+        public bool IsValid
+        {
+            get { return _isValid;  }
+            set
+            {
+                _isValid = value;
+                OnPropertyChanged();
+            }
+        }
+
         // ---commands---
         // for view entry validation controls
         public Command ValidateUsernameCommand => new Command(() => ValidateUsername());
         public Command ValidatePasswordCommand => new Command(() => ValidatePassword());
 
         // login commands
-        public Command LoginCommand => new Command(async () => await Login());
+        public Command LoginCommand => new Command(async () => await MockLogin());
 
-        private async Task Login()
+        private async Task MockLogin()
         {
             if (IsBusy) return;
             bool isValid = Validate();
+            //IsValid = isValid;
+
             if (isValid)
             {
                 IsBusy = true;
@@ -66,10 +76,6 @@ namespace EZMedChatMobile.ViewModels
                 try
                 {
                     await Task.Delay(5000);
-                    // await send to api server
-
-                    // set the MainPage to the AppShell.
-                    // this also navigates to the DoctorAvailibilityPage.
                     Application.Current.MainPage = new AppShell();
                 }
                 finally
@@ -77,11 +83,28 @@ namespace EZMedChatMobile.ViewModels
                     IsBusy = false;
                 }
             }
-            else
+        }
+
+        private async Task Login()
+        {
+            if (IsBusy) return;
+            bool isValid = Validate();
+            //IsValid = isValid;
+
+            if (isValid)
             {
-                //show popup
+                IsBusy = true;
+
+                try
+                {
+                    // call to api
+                    Application.Current.MainPage = new AppShell();
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
             }
-            
         }
 
         // Code for checking username and password validation.

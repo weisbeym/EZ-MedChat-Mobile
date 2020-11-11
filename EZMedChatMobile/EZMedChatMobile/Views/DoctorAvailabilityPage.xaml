@@ -1,12 +1,78 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:EZMedChatMobile.Converters;assembly=EZMedChatMobile"
+             xmlns:components="clr-namespace:EZMedChatMobile.Components;assembly=EZMedChatMobile"
              x:Class="EZMedChatMobile.Views.DoctorAvailabilityPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BooleanToColorConverter x:Key="BooleanToColorConverter"/>
+            <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <!--Practitioner list, indicates who is online-->
+            <Label x:Name="iconViewLabel" Text="Medical Team" 
+                   HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                   BackgroundColor="LightBlue" FontAttributes="Bold" Padding="10"/>
+            <CollectionView ItemsSource="{Binding Practitioners}"
+                            ItemsLayout="HorizontalList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <components:InitialsCircleView
+                                Name="{Binding FullName}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                WidthRequest="100"
+                                HeightRequest="100"
+                                CornerRadius="90"
+                                CircleColor="{Binding IsOnline, Converter={StaticResource BooleanToColorConverter}}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <!--Shows Waiting list for chosen practitioner-->
+            <Label x:Name="waitingRoomLabel" Text="Waiting room" 
+                   HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                   BackgroundColor="LightBlue" FontAttributes="Bold" Padding="10"/>
+            <!--Container to allow loading reticle when pulling list of patients in waiting room-->
+            <!--center this in page-->
+            <StackLayout IsVisible="{Binding IsBusy, Converter={StaticResource ReverseBooleanConverter}}"
+                         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Button x:Name="joinLobbyButton"  Text="Join a Lobby"  Command="JoinLobbyCommand" 
+                        IsVisible="{Binding HasJoinedLobby, Converter={StaticResource ReverseBooleanConverter}}"/>
+                <CollectionView IsVisible="{Binding HasJoinedLobby}"
+                                ItemsSource="{Binding LobbyMembers}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding Value}" HorizontalOptions="Center" 
+                                       VerticalOptions="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
