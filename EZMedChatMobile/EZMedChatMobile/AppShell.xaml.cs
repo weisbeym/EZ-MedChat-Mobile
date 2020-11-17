@@ -11,8 +11,10 @@ namespace EZMedChatMobile
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(DoctorAvailabilityPage), typeof(DoctorAvailabilityPage));
-            Routing.RegisterRoute(nameof(AppointmentsPage), typeof(AppointmentsPage));
+            //Routing.RegisterRoute(nameof(DoctorAvailabilityPage), typeof(DoctorAvailabilityPage));
+            //Routing.RegisterRoute(nameof(AppointmentsPage), typeof(AppointmentsPage));
+            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+            Routing.RegisterRoute(nameof(NewAppointmentPage), typeof(NewAppointmentPage));
         }
 
         // change to logout 

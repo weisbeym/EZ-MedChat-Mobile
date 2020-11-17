@@ -51,7 +51,7 @@
             <!--center this in page-->
             <StackLayout IsVisible="{Binding IsBusy, Converter={StaticResource ReverseBooleanConverter}}"
                          HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                <Button x:Name="joinLobbyButton"  Text="Join a Lobby"  Command="JoinLobbyCommand" 
+                <Button x:Name="joinLobbyButton"  Text="Join a Lobby" Command="{Binding JoinLobbyCommand}" Padding="0, 0, 5, 0"
                         IsVisible="{Binding HasJoinedLobby, Converter={StaticResource ReverseBooleanConverter}}"/>
                 <CollectionView IsVisible="{Binding HasJoinedLobby}"
                                 ItemsSource="{Binding LobbyMembers}">

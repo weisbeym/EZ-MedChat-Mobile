@@ -87,8 +87,9 @@ namespace EZMedChatMobile.ViewModels
             {
                 IsBusy = true;
 
-                await _lobbyConnection.Connect();
-                await _lobbyConnection.Join(ChosenLobbyHost);
+                MockJoinLobby();
+                //await _lobbyConnection.Connect();
+                //await _lobbyConnection.Join(ChosenLobbyHost);
                 HasJoinedLobby = true;
             }
             catch (Exception e)
@@ -120,9 +121,11 @@ namespace EZMedChatMobile.ViewModels
             }
         }
 
+
+
         private void MockLoadPractitioners()
         {
-            var practitioners = new MockDataStore().GetPractitioners();
+            var practitioners = new MockDataService().GetPractitioners();
             Practitioners = new ObservableCollection<Practitioner>(practitioners);
         }
 

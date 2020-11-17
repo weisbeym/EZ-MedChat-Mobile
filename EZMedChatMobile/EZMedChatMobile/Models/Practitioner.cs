@@ -17,6 +17,8 @@
             set { }
         }
 
+        public string Title { get; set; }
+
         public bool IsOnline { get; set; }
     }
 }

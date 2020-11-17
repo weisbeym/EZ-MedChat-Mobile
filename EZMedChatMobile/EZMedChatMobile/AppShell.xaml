@@ -43,9 +43,13 @@
     <!--
         await Shell.Current.GoToAsync("//LoginPage");
     -->
-    <ShellItem>
+    <!--<ShellItem>
         <ShellContent Route="LoginPage" Shell.FlyoutBehavior="Disabled" ContentTemplate="{DataTemplate local:LoginPage}" />
     </ShellItem>
+
+    <ShellItem>
+        <ShellContent Route="NewAppointmentPage" Shell.FlyoutBehavior="Disabled" ContentTemplate="{DataTemplate local:NewAppointmentPage}" />
+    </ShellItem>-->
 
 </Shell>
     

@@ -11,21 +11,15 @@ using Xamarin.Forms.Xaml;
 namespace EZMedChatMobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AppointmentsPage : ContentPage
+    public partial class NewAppointmentPage : ContentView
     {
-        AppointmentsViewModel vm;
+        NewAppointmentViewModel vm;
 
-        public AppointmentsPage()
+        public NewAppointmentPage()
         {
             InitializeComponent();
-            vm = new AppointmentsViewModel();
+            vm = new NewAppointmentViewModel();
             BindingContext = vm;
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            vm.Init();
         }
     }
 }
