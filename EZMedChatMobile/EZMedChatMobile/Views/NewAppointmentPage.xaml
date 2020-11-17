@@ -1,18 +1,85 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="EZMedChatMobile.Views.NewAppointmentPage">
-  <ContentView.Content>
-        <AbsoluteLayout>
-            <DatePicker AbsoluteLayout.LayoutFlags="PositionProportional"
-                        AbsoluteLayout.LayoutBounds="0.5, 0.10"/>
-            <!--<TimePicker AbsoluteLayout.LayoutFlags="All"
-                        AbsoluteLayout.LayoutBounds="0, 0.60"/>
-            <Button BackgroundColor="CornflowerBlue"
-                    AbsoluteLayout.LayoutFlags="All"
-                    AbsoluteLayout.LayoutBounds="0.50, 0.60"
-                    VerticalOptions="CenterAndExpand"
-                    Text="Schedule a new appointment"/>-->
-        </AbsoluteLayout>
-    </ContentView.Content>
-</ContentView>
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:converters="clr-namespace:EZMedChatMobile.Converters" 
+             xmlns:behaviors="clr-namespace:EZMedChatMobile.Behaviors"
+             x:Class="EZMedChatMobile.Views.NewAppointmentPage"
+             Shell.TabBarIsVisible="false">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ValidationErrorConverter x:Key="ValidationErrorConverter"/>
+            <Style x:Key="ValidationErrorLabelStyle"
+                   TargetType="{x:Type Label}">
+                <Setter Property="TextColor"
+                           Value="#ff5252" />
+                <Setter Property="FontSize"
+                           Value="12" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="CenterAndExpand" Margin="10">
+            <!-- Select Practitioner -->
+            <Label Text="Select a Practitioner" TextColor="#455399" /> 
+            <Picker Title="Choosen Practitioner" TitleColor="CadetBlue" 
+                    ItemsSource="{Binding Practitioners}" ItemDisplayBinding="{Binding FullName}"
+                    SelectedItem="{Binding SelectedPractitioner}">
+                <Picker.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        EventName="SelectedIndexChanged"
+                        Command="{Binding ValidatePractitionerCommand}"/>
+                </Picker.Behaviors>
+            </Picker>
+            <Label Text="{Binding SelectedPractitioner.Errors[0]}"
+                   Style="{StaticResource ValidationErrorLabelStyle}"/>
+            <!-- Select Date -->
+            <Label Text="Choose a Date" TextColor="#455399" />
+            <DatePicker Format="D" Date="{Binding SelectedDate}" TextColor="CadetBlue">
+                <DatePicker.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        EventName="PropertyChanged"
+                        Command="{Binding ValidateDateCommand}"/>
+                </DatePicker.Behaviors>
+            </DatePicker>
+            <Label Text="{Binding SelectedDate.Errors[0]}"
+                   Style="{StaticResource ValidationErrorLabelStyle}"/>
+            <!-- Select Time -->
+            <Label Text="Choose a Time" TextColor="#455399" />
+            <TimePicker TextColor="CadetBlue">
+                <TimePicker.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        EventName="PropertyChanged"
+                        Command="{Binding ValidateTimeCommand}"/>
+                </TimePicker.Behaviors>
+            </TimePicker>
+            <Label Text="{Binding SelectedTime.Errors[0]}"
+                   Style="{StaticResource ValidationErrorLabelStyle}"/>
+            <!-- Provide Reason -->
+            <Label Text="Reason For Appointment" TextColor="#455399" />
+            <Editor MaxLength="240" AutoSize="TextChanges" IsSpellCheckEnabled="True" 
+                    TextColor="CadetBlue" Placeholder="Give a reason for the appoinment."
+                    PlaceholderColor="CadetBlue" >
+                <Editor.Keyboard x:FactoryMethod="Create">
+                    <x:Arguments>
+                        <KeyboardFlags>CapitalizeSentence,Spellcheck,Suggestions</KeyboardFlags>
+                    </x:Arguments>
+                </Editor.Keyboard>
+                <Editor.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        EventName="Completed"
+                        Command="{Binding ValidateReasonCommand}"/>
+                </Editor.Behaviors>
+            </Editor>
+            <Label Text="{Binding Reason.Errors[0]}" 
+                   Style="{StaticResource ValidationErrorLabelStyle}"/>
+            <!-- Save Button -->
+            <pv:PancakeView Shadow="{pv:ShadowMarkup BlurRadius=10}" HorizontalOptions="CenterAndExpand" >
+                <Button  BackgroundColor="#455399" Text="Save Appointment"/>
+            </pv:PancakeView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

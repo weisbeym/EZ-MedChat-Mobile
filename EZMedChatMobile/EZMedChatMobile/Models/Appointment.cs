@@ -6,9 +6,14 @@ namespace EZMedChatMobile.Models
 {
     public class Appointment
     {
-        //TODO: get nodatime package
         public DateTime AppointmentDate { get; set; }
-        public TimeSpan AppointmentTime { get; set; } 
+        public TimeSpan StartTime { get; set; }
+        //TODO: if we have time, allow the user to choose the duration (15 min, 30 min etc.) and add that in EndTime 
+        public TimeSpan EndTime
+        {
+            get { return StartTime.Add(new TimeSpan(0, 30, 0));  }
+            set { }
+        }
         public Practitioner ChosenPractitioner { get; set; }
         //public string Location { get; set; }
         public string AppointmentReason { get; set; }
@@ -28,11 +33,8 @@ namespace EZMedChatMobile.Models
 
         public string GetAppointmentDurationAsString()
         {
-            TimeSpan startTime = AppointmentTime;
-            DateTime convertedStartTime = DateTime.Today.Add(startTime);
-
-            TimeSpan endTime = AppointmentTime + new TimeSpan(0, 30, 0);
-            DateTime convertedEndTime = DateTime.Today.Add(endTime);
+            DateTime convertedStartTime = DateTime.Today.Add(StartTime);
+            DateTime convertedEndTime = DateTime.Today.Add(EndTime);
 
             return convertedStartTime.ToString("hh:mm tt") + " - " + convertedEndTime.ToString("hh:mm tt");
         }

@@ -49,17 +49,17 @@ namespace EZMedChatMobile.Services
         {
             List<Appointment> appointments = new List<Appointment>()
             {
-                new Appointment {AppointmentDate = new DateTime(2020, 1, 15, 9, 30, 0), AppointmentTime = new TimeSpan(11,0,0), 
+                new Appointment {AppointmentDate = new DateTime(2020, 1, 15, 9, 30, 0), StartTime = new TimeSpan(11,0,0), 
                     ChosenPractitioner = practitioners[0], AppointmentReason="Annual visit."},
-                new Appointment {AppointmentDate = new DateTime(2020, 3, 21, 13, 0, 0), AppointmentTime = new TimeSpan(9,0,0),
+                new Appointment {AppointmentDate = new DateTime(2020, 3, 21, 13, 0, 0), StartTime = new TimeSpan(9,0,0),
                     ChosenPractitioner = practitioners[2], AppointmentReason="Fell and couldn't walk on my right leg."},
-                new Appointment {AppointmentDate = new DateTime(2020, 4, 3, 8, 30, 0), AppointmentTime = new TimeSpan(13,30,0),
+                new Appointment {AppointmentDate = new DateTime(2020, 4, 3, 8, 30, 0), StartTime = new TimeSpan(13,30,0),
                     ChosenPractitioner = practitioners[1], AppointmentReason="Annual eye exam."},
-                new Appointment {AppointmentDate = new DateTime(2020, 4, 10, 9, 30, 0), AppointmentTime = new TimeSpan(10,15,0),
+                new Appointment {AppointmentDate = new DateTime(2020, 4, 10, 9, 30, 0), StartTime = new TimeSpan(10,15,0),
                     ChosenPractitioner = practitioners[2], AppointmentReason="Follow up."},
-                new Appointment {AppointmentDate = new DateTime(2020, 5, 12, 11, 0, 0), AppointmentTime = new TimeSpan(8,0,0),
+                new Appointment {AppointmentDate = new DateTime(2020, 5, 12, 11, 0, 0), StartTime = new TimeSpan(8,0,0),
                     ChosenPractitioner = practitioners[0], AppointmentReason="Normal Visit"},
-                new Appointment {AppointmentDate = new DateTime(2020, 12, 15, 9, 30, 0), AppointmentTime = new TimeSpan(9,30,0),
+                new Appointment {AppointmentDate = new DateTime(2020, 12, 15, 9, 30, 0), StartTime = new TimeSpan(9,30,0),
                     ChosenPractitioner = practitioners[0], AppointmentReason="Issues with stomach."},
             };
 

@@ -13,7 +13,6 @@ namespace EZMedChatMobile
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
             DependencyService.Register<MedChatApiDataService>();
             MainPage = new AppShell();
             //MainPage = new LoginPage();

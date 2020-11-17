@@ -37,16 +37,11 @@ namespace EZMedChatMobile.ViewModels
             }
         }
 
-        public Command ScheuleNewAppointmentCommand => new Command(() => AddNewAppointment());
-
-        //public AppointmentsViewModel(IMedChatDataService medChatDataService)
-        //{
-        //    _medChatDataService = medChatDataService;
-        //}
+        public Command ScheduleNewAppointmentCommand=> new Command(() => AddNewAppointment());
 
         public async void AddNewAppointment()
         {
-            await Shell.Current.GoToAsync(nameof(NewAppointmentPage));
+            await Shell.Current.GoToAsync("NewAppointmentPage");
         }
         public void Init()
         {
@@ -63,9 +58,14 @@ namespace EZMedChatMobile.ViewModels
                 (appointments.Where(a => a.AppointmentDate > DateTime.Now));
         }
 
-        private void LoadAndSortAppointments()
+        private void LoadAndSortAppointments(string token)
         {
             //TODO: get appointments from data service and sort them into past and future.
+            //List<Appointment> appointments = _medChatDataService.GetAppointments(token);
+            //PastAppointments = new ObservableCollection<Appointment>
+            //    (appointments.Where(a => a.AppointmentDate < DateTime.Now));
+            //FutureAppointments = new ObservableCollection<Appointment>
+            //    (appointments.Where(a => a.AppointmentDate > DateTime.Now));
         }
     }
 }

@@ -11,7 +11,7 @@ using Xamarin.Forms.Xaml;
 namespace EZMedChatMobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NewAppointmentPage : ContentView
+    public partial class NewAppointmentPage : ContentPage
     {
         NewAppointmentViewModel vm;
 
