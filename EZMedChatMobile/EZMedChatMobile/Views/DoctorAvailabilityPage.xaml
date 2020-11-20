@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage rainbows:DebugRainbow.ShowColors="false"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:EZMedChatMobile.Converters;assembly=EZMedChatMobile"
+             xmlns:components="clr-namespace:EZMedChatMobile.Components;assembly=EZMedChatMobile"
+             xmlns:rainbows="clr-namespace:Xamarin.Forms.DebugRainbows;assembly=Xamarin.Forms.DebugRainbows" 
+             xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="EZMedChatMobile.Views.DoctorAvailabilityPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BooleanToColorConverter x:Key="BooleanToColorConverter"/>
+            <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30*"/>
+                <RowDefinition Height="70*"/>
+            </Grid.RowDefinitions>
+            <StackLayout>
+                <Label x:Name="iconViewLabel" Text="Medical Team" 
+                   HorizontalOptions="FillAndExpand" VerticalOptions="Start"
+                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                   BackgroundColor="LightBlue" FontAttributes="Bold" Padding="10"/>
+                <CollectionView ItemsSource="{Binding Practitioners}"
+                            ItemsLayout="HorizontalList" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout>
+                                <components:InitialsCircleView
+                                Name="{Binding FullName}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                WidthRequest="100"
+                                HeightRequest="100"
+                                CornerRadius="90"
+                                CircleColor="{Binding IsOnline, Converter={StaticResource BooleanToColorConverter}}"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+            <StackLayout Grid.Row="1">
+                <Label x:Name="waitingRoomLabel" Text="Waiting room"
+                   HorizontalOptions="FillAndExpand" VerticalOptions="Start"
+                   VerticalTextAlignment="Start" HorizontalTextAlignment="Center"
+                   BackgroundColor="LightBlue" FontAttributes="Bold" Padding="10"/>
+                <StackLayout IsVisible="{Binding IsBusy, Converter={StaticResource ReverseBooleanConverter}}">
+                    <pv:PancakeView Shadow="{pv:ShadowMarkup BlurRadius=10}" Margin="10"
+                                    HorizontalOptions="Center" VerticalOptions="Center"
+                                    IsVisible="{Binding HasJoinedLobby, 
+                                    Converter={StaticResource ReverseBooleanConverter}}">
+                        <Button Text="Join a Lobby" 
+                                Command="{Binding JoinLobbyCommand}" 
+                                BackgroundColor="#455399"/>
+                    </pv:PancakeView>
+                    <CollectionView IsVisible="{Binding HasJoinedLobby}"
+                                    ItemsSource="{Binding LobbyMembers}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Text="{Binding}" 
+                                           FontSize="14" TextColor="Black" 
+                                           HorizontalOptions="Center" 
+                                           VerticalOptions="Center"/>
+                                    <BoxView Grid.Row="1" 
+                                             HeightRequest="1" 
+                                             BackgroundColor="LightGray"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <pv:PancakeView IsVisible="{Binding HasJoinedLobby}"
+                                    Shadow="{pv:ShadowMarkup BlurRadius=10}"
+                                    Margin="10" HorizontalOptions="Center">
+                        <Button Text="Leave Lobby" BackgroundColor="#455399"
+                                VerticalOptions="End" HorizontalOptions="Center"
+                                Command="{Binding LeaveLobbyCommand}"/>
+                    </pv:PancakeView>
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
