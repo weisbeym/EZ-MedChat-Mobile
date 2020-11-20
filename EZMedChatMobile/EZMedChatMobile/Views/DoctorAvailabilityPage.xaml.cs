@@ -19,7 +19,8 @@ namespace EZMedChatMobile.Views
         public DoctorAvailabilityPage()
         {
             InitializeComponent();
-            vm = new DoctorAvailabilityViewModel(new LobbyHubConnection(new Uri("https://localhost:44389/")));
+            LobbyHubConnection lobbyConnection = new LobbyHubConnection(new Uri("https://localhost:44389"));
+            vm = new DoctorAvailabilityViewModel(lobbyConnection);
             BindingContext = vm;
         }
 
@@ -29,7 +30,7 @@ namespace EZMedChatMobile.Views
             vm?.Init();
         }
 
-        protected override async void OnDisappearing()
+        protected override void OnDisappearing()
         {
             base.OnDisappearing();
         }

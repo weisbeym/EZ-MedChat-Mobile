@@ -80,6 +80,9 @@ namespace EZMedChatMobile.ViewModels
 
         public async void SaveNewAppointment()
         {
+            var a = SelectedDate.Value;
+            var b = SelectedPractitioner.Value;
+            var c = SelectedTime.Value;
             //TODO: when sending to Db also add it to local cache
             IsValid = ValidateInput();
 
@@ -113,6 +116,10 @@ namespace EZMedChatMobile.ViewModels
         {
             //TODO: when service is implemented get doctor info based on patient token
             Practitioners = new MockDataService().CreateMockPractitioners();
+            _selectedPractitioner = new ValidatableObject<Practitioner>();
+            _selectedDate = new ValidatableObject<DateTime>();
+            _selectedTime = new ValidatableObject<TimeSpan>();
+            _reason = new ValidatableObject<string>();
             AddValidationRules();
             IsValid = true;
         }
@@ -131,22 +138,22 @@ namespace EZMedChatMobile.ViewModels
 
         private bool ValidatePractitionerPicker()
         {
-            return SelectedPractitioner.Validate();
+            return _selectedPractitioner.Validate();
         }
 
         private bool ValidateDatePicker()
         {
-            return SelectedDate.Validate();
+            return _selectedDate.Validate();
         }
 
         private bool ValidateTimePicker()
         {
-            return SelectedTime.Validate();
+            return _selectedTime.Validate();
         }
 
         private bool ValidateReason()
         {
-            return Reason.Validate();
+            return _reason.Validate();
         }
 
 

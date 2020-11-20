@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:converters="clr-namespace:EZMedChatMobile.Converters" 
              xmlns:behaviors="clr-namespace:EZMedChatMobile.Behaviors"
@@ -27,58 +28,65 @@
             <Label Text="Select a Practitioner" TextColor="#455399" /> 
             <Picker Title="Choosen Practitioner" TitleColor="CadetBlue" 
                     ItemsSource="{Binding Practitioners}" ItemDisplayBinding="{Binding FullName}"
-                    SelectedItem="{Binding SelectedPractitioner}">
+                    SelectedItem="{Binding SelectedPractitioner.Value, Mode=TwoWay}">
                 <Picker.Behaviors>
                     <behaviors:EventToCommandBehavior
                         EventName="SelectedIndexChanged"
                         Command="{Binding ValidatePractitionerCommand}"/>
                 </Picker.Behaviors>
             </Picker>
-            <Label Text="{Binding SelectedPractitioner.Errors[0]}"
+            <Label Text="{Binding SelectedPractitioner.Errors, 
+                   Converter={StaticResource ValidationErrorConverter}}"
                    Style="{StaticResource ValidationErrorLabelStyle}"/>
             <!-- Select Date -->
             <Label Text="Choose a Date" TextColor="#455399" />
-            <DatePicker Format="D" Date="{Binding SelectedDate}" TextColor="CadetBlue">
+            <DatePicker Format="D" MinimumDate="{x:Static sys:DateTime.Now}" 
+                        Date="{Binding SelectedDate.Value, Mode=TwoWay}" TextColor="CadetBlue">
                 <DatePicker.Behaviors>
                     <behaviors:EventToCommandBehavior
-                        EventName="PropertyChanged"
+                        EventName="DateSelected"
                         Command="{Binding ValidateDateCommand}"/>
                 </DatePicker.Behaviors>
             </DatePicker>
-            <Label Text="{Binding SelectedDate.Errors[0]}"
+            <Label Text="{Binding SelectedDate.Errors,
+                   Converter={StaticResource ValidationErrorConverter}}"
                    Style="{StaticResource ValidationErrorLabelStyle}"/>
             <!-- Select Time -->
             <Label Text="Choose a Time" TextColor="#455399" />
-            <TimePicker TextColor="CadetBlue">
+            <TimePicker TextColor="CadetBlue" Format="T" 
+                        Time="{Binding SelectedTime.Value}">
                 <TimePicker.Behaviors>
                     <behaviors:EventToCommandBehavior
                         EventName="PropertyChanged"
                         Command="{Binding ValidateTimeCommand}"/>
                 </TimePicker.Behaviors>
             </TimePicker>
-            <Label Text="{Binding SelectedTime.Errors[0]}"
+            <Label Text="{Binding SelectedTime.Errors, 
+                   Converter={StaticResource ValidationErrorConverter}}"
                    Style="{StaticResource ValidationErrorLabelStyle}"/>
             <!-- Provide Reason -->
             <Label Text="Reason For Appointment" TextColor="#455399" />
             <Editor MaxLength="240" AutoSize="TextChanges" IsSpellCheckEnabled="True" 
                     TextColor="CadetBlue" Placeholder="Give a reason for the appoinment."
-                    PlaceholderColor="CadetBlue" >
-                <Editor.Keyboard x:FactoryMethod="Create">
+                    PlaceholderColor="CadetBlue" Text="{Binding Reason.Value, Mode=TwoWay}">
+                <!--<Editor.Keyboard x:FactoryMethod="Create">
                     <x:Arguments>
                         <KeyboardFlags>CapitalizeSentence,Spellcheck,Suggestions</KeyboardFlags>
                     </x:Arguments>
-                </Editor.Keyboard>
+                </Editor.Keyboard>-->
                 <Editor.Behaviors>
                     <behaviors:EventToCommandBehavior
                         EventName="Completed"
                         Command="{Binding ValidateReasonCommand}"/>
                 </Editor.Behaviors>
             </Editor>
-            <Label Text="{Binding Reason.Errors[0]}" 
+            <Label Text="{Binding Reason.Errors, 
+                   Converter={StaticResource ValidationErrorConverter}}" 
                    Style="{StaticResource ValidationErrorLabelStyle}"/>
             <!-- Save Button -->
             <pv:PancakeView Shadow="{pv:ShadowMarkup BlurRadius=10}" HorizontalOptions="CenterAndExpand" >
-                <Button  BackgroundColor="#455399" Text="Save Appointment"/>
+                <Button  BackgroundColor="#455399" Text="Save Appointment"
+                         Command="{Binding SaveNewAppointmentCommand}"/>
             </pv:PancakeView>
         </StackLayout>
     </ContentPage.Content>

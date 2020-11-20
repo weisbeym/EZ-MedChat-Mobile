@@ -9,7 +9,7 @@ namespace EZMedChatMobile.Components
     {
         public static BindableProperty CircleColorProperty = BindableProperty.Create(nameof(CircleColor), typeof(Color), typeof(InitialsCircleView), Color.Gray);
         public static BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(InitialsCircleView), Color.White);
-        public static BindableProperty FontSizeProperty = BindableProperty.Create(nameof(FontSize), typeof(int), typeof(InitialsCircleView), 14);
+        public static BindableProperty FontSizeProperty = BindableProperty.Create(nameof(FontSize), typeof(int), typeof(InitialsCircleView), 16);
         public static BindableProperty FontProperty = BindableProperty.Create(nameof(Font), typeof(Font), typeof(InitialsCircleView), Font.Default);
         public static BindableProperty CornerRadiusProperty = BindableProperty.Create(nameof(CornerRadius), typeof(double), typeof(InitialsCircleView), 0.0, propertyChanged: (bindable, oldVal, newVal) =>
         {

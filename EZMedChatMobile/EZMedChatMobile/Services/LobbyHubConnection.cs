@@ -2,6 +2,7 @@
 using Observables.Specialized.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 //using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace EZMedChatMobile.Services
         public LobbyHubConnection(Uri uri)
         {
             lobbyConnection = new HubConnectionBuilder()
-            .WithUrl($"{uri}/lobbyHub").Build();
+            .WithUrl($"{uri}/chathub").Build();
         }
 
         public async Task Connect() 
@@ -43,12 +44,12 @@ namespace EZMedChatMobile.Services
             await lobbyConnection.InvokeAsync("SendMessageToGroup", groupName, message);
         }
 
-        private void ConfigureLobbyOutput(ObservableDictionary<string, string> lobbyMembers)
+        public void ConfigureLobbyOutput(ObservableCollection<string> lobbyMembers)
         {
             // Addtogroup might have to be changed to send
-            lobbyConnection.On<string, string>("AddToGroup", (patient, message) =>
+            lobbyConnection.On<string>("AddToGroup", (message) =>
             {
-                lobbyMembers.Add(new KeyValuePair<string, string>(patient, message));
+                lobbyMembers.Add(message);
             });
         }
     }

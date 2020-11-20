@@ -18,6 +18,7 @@ namespace EZMedChatMobile.ViewModels
         public DoctorAvailabilityViewModel(IHubConnection lobbyConnection)
         {
             _lobbyConnection = lobbyConnection;
+            _lobbyConnection.ConfigureLobbyOutput(LobbyMembers);
             HasJoinedLobby = false;
         }
 
@@ -32,8 +33,8 @@ namespace EZMedChatMobile.ViewModels
             }
         }
 
-        private ObservableDictionary<string, string> _lobbyMembers;
-        public ObservableDictionary<string, string> LobbyMembers
+        private ObservableCollection<string> _lobbyMembers;
+        public ObservableCollection<string> LobbyMembers
         { 
             get { return _lobbyMembers;  }
             set
@@ -67,7 +68,7 @@ namespace EZMedChatMobile.ViewModels
 
         // commands
         public Command JoinLobbyCommand => new Command(() => JoinLobby());
-        public Command LeaveLobbyCommand => new Command(() => LeaveLobby(ChosenLobbyHost));
+        public Command LeaveLobbyCommand => new Command(() => MockLeaveLobby());
 
         public void Init()
         {
@@ -80,6 +81,10 @@ namespace EZMedChatMobile.ViewModels
             var possibleLobbyHosts = Practitioners.Where(p => p.IsOnline == true).Select(p => p.FirstName).ToArray();
             var lobbyHost = await Application.Current.MainPage.DisplayActionSheet(
                 "Whose lobby do you want to enter?", "Cancel", null, possibleLobbyHosts);
+            
+            // if the cancel button is pressed instead of choosing a practitioner
+            if (string.IsNullOrEmpty(lobbyHost) || lobbyHost == "Cancel")
+                return;
 
             ChosenLobbyHost = lobbyHost;
             // join and display lobby.
@@ -91,11 +96,6 @@ namespace EZMedChatMobile.ViewModels
                 //await _lobbyConnection.Connect();
                 //await _lobbyConnection.Join(ChosenLobbyHost);
                 HasJoinedLobby = true;
-            }
-            catch (Exception e)
-            {
-                // TODO: change how to read the message
-                ChosenLobbyHost = e.Message;
             }
             finally
             {
@@ -132,16 +132,23 @@ namespace EZMedChatMobile.ViewModels
         // change to have lobby members be key-value pair of name and 
         public async void MockJoinLobby()
         {
-            ObservableDictionary<string, string> waitingRoomMemebers = new ObservableDictionary<string, string>();
-            waitingRoomMemebers.Add(new KeyValuePair<string, string>("Jane Doe", "Jain Doe has joined the lobby."));
-            waitingRoomMemebers.Add(new KeyValuePair<string, string>("Alex Trabeck", "Alex Trabeck has joined the lobby."));
+            ObservableCollection<string> waitingRoomMemebers = new ObservableCollection<string>();
+            waitingRoomMemebers.Add("Joel Vincent has joined the lobby.");
+            waitingRoomMemebers.Add("Yisroel Weisberg has joined the lobby.");
 
+            await Task.Delay(1000);
+            LobbyMembers = waitingRoomMemebers;
+        }
 
-            IsBusy = true;
+        public async void MockLeaveLobby()
+        {
             try
             {
-                await Task.Delay(2000);
-                LobbyMembers = waitingRoomMemebers;
+                IsBusy = true;
+                await Task.Delay(1000);
+                ChosenLobbyHost = "";
+                LobbyMembers = new ObservableCollection<string>();
+                HasJoinedLobby = false;
             }
             finally
             {

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:components="clr-namespace:EZMedChatMobile.Components"
              x:Class="EZMedChatMobile.Components.InitialsCircleView">
-    <ContentPage.Content>
+    <ContentView.Content>
         <Grid x:Name="Container">
             <components:CircleView x:Name="Circle" Margin="16" 
                 HorizontalOptions="Fill" VerticalOptions="Fill" 
@@ -12,7 +12,7 @@
                 HorizontalOptions="Center" HorizontalTextAlignment="Center" 
                 TextColor="{Binding TextColor}" Font="{Binding Font}" FontSize="{Binding FontSize}" />
             <Label x:Name="fullName" Text="{Binding Name}" HorizontalOptions="Center" VerticalOptions="End"
-                   TextColor="Black" Font="{Binding Font}" FontSize="16" Padding="-5"/>
+                   TextColor="Black" Font="{Binding Font}" FontSize="16" Padding="-6"/>
         </Grid>
-    </ContentPage.Content>
+    </ContentView.Content>
 </ContentView>

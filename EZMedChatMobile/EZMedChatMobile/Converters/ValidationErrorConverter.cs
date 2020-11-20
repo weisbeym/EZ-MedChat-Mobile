@@ -11,8 +11,9 @@ namespace EZMedChatMobile.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            ICollection<string> errors = value as Collection<string>;
-            return errors != null && errors.Count > 0 ? errors.ElementAt(0) : null;
+
+            List<string> errors = value as List<string>;
+            return errors != null && errors.Count > 0 ? errors[0] : null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) 

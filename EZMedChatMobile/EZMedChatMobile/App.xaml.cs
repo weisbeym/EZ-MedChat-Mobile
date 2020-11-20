@@ -14,8 +14,8 @@ namespace EZMedChatMobile
             InitializeComponent();
 
             DependencyService.Register<MedChatApiDataService>();
-            MainPage = new AppShell();
-            //MainPage = new LoginPage();
+            //MainPage = new AppShell();
+            MainPage = new LoginPage();
             Device.SetFlags(new string[] { "Expander_Experimental" });
         }
 

@@ -34,7 +34,7 @@ namespace EZMedChatMobile.Services
             List<Practitioner> practitioners = new List<Practitioner>()
             {
                 new Practitioner { Id = 1, FirstName = "John", LastName ="Doe", Title="MD", IsOnline=false},
-                new Practitioner { Id = 2, FirstName = "Max", LastName ="Paine", Title="OD", IsOnline=true},
+                new Practitioner { Id = 2, FirstName = "Joel", LastName ="Vincent", Title="OD", IsOnline=true},
                 new Practitioner { Id = 3, FirstName = "Jane", LastName ="Fonda", Title="DPM", IsOnline=false},
                 new Practitioner { Id = 4, FirstName = "Chris", LastName ="Pratt", Title="MD", IsOnline=false},
                 new Practitioner { Id = 5, FirstName = "Mary", LastName ="Jane", Title="RDN", IsOnline=false},
